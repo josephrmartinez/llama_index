@@ -6,6 +6,7 @@
 
 - Support for Hugging Face Inference API's `conversational`, `text_generation`,
   and `feature_extraction` endpoints via `huggingface_hub[inference]` (#8098)
+- Consolidates `LocalAI` into a parameterization of `OpenAILike` (#8241)
 
 ### Bug Fixes / Nits
 
