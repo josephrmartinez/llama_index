@@ -1,25 +1,80 @@
 # A Guide to Building a Full-Stack Web App with LLamaIndex
 
-LlamaIndex is a python library, which means that integrating it with a full-stack web application will be a little different than what you might be used to.
-
-This guide seeks to walk through the steps needed to create a basic API service written in python, and how this interacts with a TypeScript+React frontend.
+This guide walks you through the steps of creating a full-stack web app with the following technologies:
+Python
+Flask
+LlamaIndex
+React+Typescript
 
 All code examples here are available from the [llama_index_starter_pack](https://github.com/logan-markewich/llama_index_starter_pack/tree/main/flask_react) in the flask_react folder.
 
-The main technologies used in this guide are as follows:
+## Install Python / confirm version
+Verify your Python installation by running python3 --version in your command prompt or terminal. [Install or update Python](https://www.python.org/downloads/) so that you have version 3.11. You may have python 3.12 or even multiple versions of python on your machine. Run python3.11 --version to verify that you have a version of python3.11 as required by this tutorial.
 
-- python3.11
-- llama_index
-- flask
-- typescript
-- react
+## Install Poetry
+Poetry is a tool for dependency management and packaging in Python. Follow the [installation instructions](https://python-poetry.org/docs/) and make sure you add Poetry to your PATH (step 3). You can verify this by running poetry --version or any other Poetry command to make sure that Poetry is accessible and working as expected. If it returns the version information, you have successfully added Poetry to your PATH, and you can start using it for managing your Python projects and dependencies.
+
+
+## Initialize a new Poetry project with Python
+First, let’s create our new project, let’s call it flask-demo
+
+```$ poetry new flask-demo```
+
+This will create the flask-demo directory with the following content:
+
+```
+flask-demo
+├── pyproject.toml
+├── README.md
+├── flask_demo
+│   └── __init__.py
+└── tests
+    └── __init__.py
+```
+
+Poetry creates a pyproject.toml file to orchestrate your project and its dependencies. The pyproject.toml file may look like this:
+
+```
+[tool.poetry]
+name = "flask-demo"
+version = "0.1.0"
+description = ""
+authors = ["..."]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+flask = "^3.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+```
+
+llama-index requires Python >=3.8.1,<3.12, so we need to make sure sure the Python requirement is compatible. Update the python requirement to ```python = ">=3.8.1,<3.12"``` and save the pyproject.toml file.
+
+
+## Install libraries
+
+We will be using the following libraries for this project:
+Flask - 
+Llama Index -
+
+Install these libraries with the following command:
+
+```
+$ poetry add flask llama-index
+```
+
 
 ## Flask Backend
 
-For this guide, our backend will use a [Flask](https://flask.palletsprojects.com/en/2.2.x/) API server to communicate with our frontend code. If you prefer, you can also easily translate this to a [FastAPI](https://fastapi.tiangolo.com/) server, or any other python server library of your choice.
+For this guide, our backend will use a [Flask](https://flask.palletsprojects.com/en/2.2.x/) API server to communicate with our frontend code.
 
-Setting up a server using Flask is easy. You import the package, create the app object, and then create your endpoints. Let's create a basic skeleton for the server first:
+Setting up a server using Flask is easy. You import the package, create the app object, and then create your endpoints. In the flask_demo directory, let's create a new file flask_demo.py with a basic skeleton for the server:
 
+_flask_demo.py_
 ```python
 from flask import Flask
 
@@ -27,15 +82,15 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "Hello World!"
+    return "Hello, World!"
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5601)
 ```
 
-_flask_demo.py_
+Note on recognizing dependencies: if you are using VSCode and your dependencies are not recognized, see [this question on StackOverflow](https://stackoverflow.com/questions/75567769/vscode-does-not-recognize-my-flask-dependency-installed-with-poetry)
 
-If you run this file (`python flask_demo.py`), it will launch a server on port 5601. If you visit `http://localhost:5601/`, you will see the "Hello World!" text rendered in your browser. Nice!
+If you run this file (`python3 flask_demo.py`), it will launch a server on port 5601. If you visit `http://localhost:5601/`, you will see the "Hello World!" text rendered in your browser. Nice!
 
 The next step is deciding what functions we want to include in our server, and to start using LlamaIndex.
 
